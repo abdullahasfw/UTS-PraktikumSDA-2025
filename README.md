@@ -9,9 +9,9 @@ Sebuah Project yang dikerjakan untuk menyelesaikan Ujian Tengah Semester Praktik
 
 ## Anggota Kelompok
 
--  Abdullah Asy-Syifawi - 2408107010042 [Github](https://github.com/abdullahasfw)
+-  Abdullah Asy-Syifawi - 2408107010042 ([GitHub)](https://github.com/abdullahasfw)
 
-- M. Anis Fathin - 2408107010045 [Github](https://github.com/anis733) 
+- M. Anis Fathin - 2408107010045 [(GitHub)](https://github.com/anis733) 
 
 
 ## Penggunaan
