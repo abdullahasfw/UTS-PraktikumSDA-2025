@@ -19,27 +19,22 @@ void infixToPrefix(char *src, char* dest);
 void prefixToInfix(char *src, char* dest);
 void prefixToPostfix(char *src, char* dest);    
 void postfixToPrefix(char *src, char* dest);
-void reverse(char* str);        
+void reverse(char* str);
 
-int main() {
-    int pilihan = 0;
-    char input[max], output[max];
+int menuSelect(char **menu, int len) {
     char ch;
-
-    printf("\033[H\033[J");
-    printf("\nPilih Konversi\n\n");
-    char *convertion[] = {"Infix to Postfix", "Postfix to Infix", "Infix to Prefix", "Prefix to Infix", "Prefix to Postfix", "Postfix to Prefix"};
+    int pilihan = 1;
     while(1) {
-        for(int i = 0; i < 6; i++) {
-            if(pilihan == i)
+        for(int i = 0; i < len; i++) {
+            if(pilihan == i+1)
                 printf("\e[33m\e[1m");
-            printf("%s\n", convertion[i]);
+            printf("%s\n", menu[i]);
             printf("\e[0m");
         }
         ch = getch();
-        if(ch == 'w' && pilihan != 0)
+        if(ch == 'w' && pilihan != 1)
             pilihan--;
-        else if(ch == 's' && pilihan != 5)
+        else if(ch == 's' && pilihan != len)
             pilihan++;
         else if(ch == 224) {
             if(ch == 72 && pilihan != 0)
@@ -48,15 +43,23 @@ int main() {
                 pilihan++;
         }
         else if(ch == ' ' || ch == 13)
-            break;
+            return pilihan;
         else if(ch == 127 || ch == 27 || ch == '\b')
             return 0;
 
-        for(int j = 0; j < 6; j++) 
+        for(int j = 0; j < len; j++) 
             printf("\e[F");
-    
     }
+}
 
+int main() {
+    char input[max], output[max];
+    char ch;
+
+    printf("\033[H\033[J");
+    printf("\nPilih Konversi\n\n");
+    char *convertion[] = {"Infix to Postfix", "Postfix to Infix", "Infix to Prefix", "Prefix to Infix", "Prefix to Postfix", "Postfix to Prefix"};
+    int pilihan = menuSelect(convertion, 6);
     printf("\033[H\033[J");
 
     printf("Masukkan ekspresi ");
@@ -71,6 +74,9 @@ int main() {
 
     scanf("%s", input);
     switch(pilihan) {
+        case 0:
+            return 0;
+            break;
         case 1:
             infixToPostfix(input, output);
             break;
@@ -107,7 +113,7 @@ int main() {
     printf("\n");
     printf("\033[H\033[J");
 
-    printf("Hasil Konversi adalah \033[33m%s\n", output);
+    printf("Hasil Konversi adalah\n%s\t\t-->\t\t%s\n\n", input, output);
 
 }
 
