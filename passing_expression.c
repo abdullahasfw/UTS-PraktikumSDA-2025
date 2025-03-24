@@ -19,23 +19,43 @@ void infixToPrefix(char *src, char* dest);
 void prefixToInfix(char *src, char* dest);
 void prefixToPostfix(char *src, char* dest);    
 void postfixToPrefix(char *src, char* dest);
-void strrev(char* str);        
+void reverse(char* str);        
 
 int main() {
-    int pilihan;
+    int pilihan = 0;
     char input[max], output[max];
+    char ch;
 
     printf("\033[H\033[J");
-    printf("\n--- Selamat Datang! ---\n");
-    printf("1. Infix to Postfix\n");
-    printf("2. Postfix to Infix\n");
-    printf("3. Infix to Prefix\n");
-    printf("4. Prefix to Infix\n");
-    printf("5. Prefix to Postfix\n");
-    printf("6. Postfix to Prefix\n");
-    printf("Pilih konversi: ");
-    scanf("%d", &pilihan);
+    printf("\nPilih Konversi\n\n");
+    char *convertion[] = {"Infix to Postfix", "Postfix to Infix", "Infix to Prefix", "Prefix to Infix", "Prefix to Postfix", "Postfix to Prefix"};
+    while(1) {
+        for(int i = 0; i < 6; i++) {
+            if(pilihan == i)
+                printf("\e[33m\e[1m");
+            printf("%s\n", convertion[i]);
+            printf("\e[0m");
+        }
+        ch = getch();
+        if(ch == 'w' && pilihan != 0)
+            pilihan--;
+        else if(ch == 's' && pilihan != 5)
+            pilihan++;
+        else if(ch == 224) {
+            if(ch == 72 && pilihan != 0)
+                pilihan--;
+            else if(ch == 80 && pilihan != 5)
+                pilihan++;
+        }
+        else if(ch == ' ' || ch == 13)
+            break;
+        else if(ch == 127 || ch == 27 || ch == '\b')
+            return 0;
 
+        for(int j = 0; j < 6; j++) 
+            printf("\e[F");
+    
+    }
 
     printf("\033[H\033[J");
 
@@ -77,7 +97,11 @@ int main() {
     for(int i=0; i < 20; i++) {
         printf("%c", spin[i%4]);
         fflush(stdout);
-        usleep(150000);
+        #ifdef _WIN32
+            Sleep(100);
+        #else
+            usleep(150000);
+        #endif
         printf("\b");
     }
     printf("\n");
@@ -87,7 +111,7 @@ int main() {
 
 }
 
-void strrev(char* str) {
+void reverse(char* str) {
     int length = strlen(str);
     int i, j;
     char temp;
@@ -172,7 +196,7 @@ void postfixToInfix(char *postfix, char *infix) {
 }
 
 void infixToPrefix(char *infix, char *prefix) {
-    strrev(infix);
+    reverse(infix);
     
     for (int i = 0; i < strlen(infix); i++) {
         if (infix[i] == '(') infix[i] = ')';
@@ -180,13 +204,13 @@ void infixToPrefix(char *infix, char *prefix) {
     }
     
     infixToPostfix(infix, prefix);
-    strrev(prefix);
+    reverse(prefix);
 }
 
 void prefixToInfix(char *prefix, char *infix) {
     struct stack s;
     initStack(&s);
-    strrev(prefix);
+    reverse(prefix);
     
     for (int i = 0; i < strlen(prefix); i++) {
         if (isalnum(prefix[i])) {
