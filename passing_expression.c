@@ -59,23 +59,16 @@ int main() {
     printf("\033[H\033[J");
     printf("\nPilih Konversi\n\n");
     int pilihan = menuSelect(convertion, 6);
+
+    char asal[8], tujuan[8];
+    sscanf(convertion[pilihan-1], "%s to %s", asal, tujuan);
     
     printf("\033[H\033[J");
-    printf("Masukkan ekspresi ");
-    if(pilihan == 1 || pilihan == 3) {
-        printf("Infix: ");
-    } else if(pilihan == 2 || pilihan == 6) {
-        printf("Postfix: ");
-    } else if(pilihan == 4 || pilihan == 5) {
-        printf("Prefix: ");
-    }
-
+    printf("Masukkan ekspresi %s: ", asal);
 
     scanf("%s", input);
+
     switch(pilihan) {
-        case 0:
-            return 0;
-            break;
         case 1:
             infixToPostfix(input, output);
             break;
@@ -112,7 +105,7 @@ int main() {
     printf("\n");
     printf("\033[H\033[J");
 
-    printf("Hasil Konversi adalah\n%s\t\t-->\t\t%s\n\n", input, output);
+    printf("Hasil Konversi dari %s ke %s adalah\n\n%s\t-->\t%s\n\n", asal, tujuan, input, output);
 
 }
 
@@ -210,6 +203,9 @@ void infixToPrefix(char *infix, char *prefix) {
     
     infixToPostfix(infix, prefix);
     reverse(prefix);
+
+    reverse(infix);
+
 }
 
 void prefixToInfix(char *prefix, char *infix) {
@@ -231,6 +227,8 @@ void prefixToInfix(char *prefix, char *infix) {
     }
     
     pop(&s, infix);
+    reverse(prefix);
+
 }
 
 void prefixToPostfix(char *prefix, char *postfix) {
