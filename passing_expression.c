@@ -54,14 +54,13 @@ int menuSelect(char **menu, int len) {
 
 int main() {
     char input[max], output[max];
-    char ch;
+    char *convertion[] = {"Infix to Postfix", "Postfix to Infix", "Infix to Prefix", "Prefix to Infix", "Prefix to Postfix", "Postfix to Prefix"};
 
     printf("\033[H\033[J");
     printf("\nPilih Konversi\n\n");
-    char *convertion[] = {"Infix to Postfix", "Postfix to Infix", "Infix to Prefix", "Prefix to Infix", "Prefix to Postfix", "Postfix to Prefix"};
     int pilihan = menuSelect(convertion, 6);
+    
     printf("\033[H\033[J");
-
     printf("Masukkan ekspresi ");
     if(pilihan == 1 || pilihan == 3) {
         printf("Infix: ");
