@@ -3,6 +3,13 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
+#include "func.h"
+#ifdef _WIN32
+    #include <windows.h>
+#else 
+    #include <unistd.h>
+#endif
+
 #define max 100
 
 int precedence(char c);
@@ -19,7 +26,7 @@ int main() {
     char input[max], output[max];
 
     printf("\033[H\033[J");
-    printf("\n=== Selamat Datang! ===\n");
+    printf("\n--- Selamat Datang! ---\n");
     printf("1. Infix to Postfix\n");
     printf("2. Postfix to Infix\n");
     printf("3. Infix to Prefix\n");
@@ -30,6 +37,8 @@ int main() {
     scanf("%d", &pilihan);
 
 
+    printf("\033[H\033[J");
+
     printf("Masukkan ekspresi ");
     if(pilihan == 1 || pilihan == 3) {
         printf("Infix: ");
@@ -38,6 +47,7 @@ int main() {
     } else if(pilihan == 4 || pilihan == 5) {
         printf("Prefix: ");
     }
+
 
     scanf("%s", input);
     switch(pilihan) {
@@ -61,7 +71,19 @@ int main() {
             break;
     }
 
-    printf("Hasil Konversi adalah %s", output);
+
+    printf("Loading... \t\t");
+    char *spin = "/-\\|";
+    for(int i=0; i < 20; i++) {
+        printf("%c", spin[i%4]);
+        fflush(stdout);
+        usleep(150000);
+        printf("\b");
+    }
+    printf("\n");
+    printf("\033[H\033[J");
+
+    printf("Hasil Konversi adalah \033[33m%s\n", output);
 
 }
 
