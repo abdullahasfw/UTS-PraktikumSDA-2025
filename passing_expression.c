@@ -52,6 +52,26 @@ int menuSelect(char **menu, int len) {
     }
 }
 
+int expressionCheck(char *str, char *type) {
+    int len = strlen(str);
+    if(strcmp(type, "Infix") == 0) {
+        if(precedence(str[0]) || precedence(str[len-1]))     
+            return 0;
+
+    } else if(strcmp(type, "Postfix") == 0) {
+        if(precedence(str[0]) || !precedence(str[len-1]))
+            return 0;
+
+    } else if(strcmp(type, "Prefix") == 0) {
+        if(!precedence(str[0]) || precedence(str[len-1]))
+            return 0;
+    
+    } else {
+        return 0;
+    }
+    return 1;
+}
+
 int main() {
     char input[max], output[max];
     char *convertion[] = {"Infix to Postfix", "Postfix to Infix", "Infix to Prefix", "Prefix to Infix", "Prefix to Postfix", "Postfix to Prefix"};
@@ -59,14 +79,19 @@ int main() {
     printf("\033[H\033[J");
     printf("\nPilih Konversi\n\n");
     int pilihan = menuSelect(convertion, 6);
+    if(pilihan == 0)
+        exit(0);
 
     char asal[8], tujuan[8];
     sscanf(convertion[pilihan-1], "%s to %s", asal, tujuan);
     
     printf("\033[H\033[J");
     printf("Masukkan ekspresi %s: ", asal);
-
     scanf("%s", input);
+    if(!expressionCheck(input, asal)) {
+        printf("Invalid Expression");
+        exit(1);
+    }
 
     switch(pilihan) {
         case 1:
