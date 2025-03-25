@@ -22,6 +22,17 @@ void prefixToPostfix(char *src, char* dest);
 void postfixToPrefix(char *src, char* dest);
 void reverse(char* str);
 
+void printTitle(char *str) {
+    int len = strlen(str);
+    for(int i = 0; i < len + 10; i++)
+        printf("=");
+    printf("\n");
+    printf("\e[1m---  %s  ---\e[0m\n", str);
+    for(int i = 0; i < len + 10; i++)
+        printf("=");
+    printf("\n\n");
+}
+
 int menuSelect(char **menu, int len) {
     char ch;
     int pilihan = 1;
@@ -73,12 +84,67 @@ int expressionCheck(char *str, char *type) {
     return 1;
 }
 
+void convertMenu();
+
+
+int main() {
+    
+    char *menu[] = {"MULAI", "ABOUT", "HOW TO START", "EXIT"};
+    int select;
+while(1) {
+    printf("\033[H\033[J");
+    printTitle("SELAMAT DATANG");
+    select = menuSelect(menu, 4);
+        
+    if(select == 1)
+        convertMenu();
+    else if(select == 2) {
+        printf("\033[H\033[J");
+        printTitle("Tentang");
+        printf("Rumus matematika sering kali lebih mudah dipahami dengan menggunakan tanda kurung. Namun, dalam komputer,  ekspresi dengan beberapa tanda kurung bisa jadi tidak efisien. Jadi, matematikawan telah menciptakan notasi yang berbeda seperti ekspresi infiks, prefiks, dan postfiks untuk mengurangi pekerjaan komputasi.\n\n");
+        printf("\e[1mINFIX\e[0m\n");
+        printf("Ekspresi infiks merupakan jenis ekspresi yang paling umum.  Notasi ini biasanya digunakan saat menulis ekspresi aritmatika secara manual. Selain itu, dalam ekspresi infiks, kita menempatkan operator di antara dua operan yang dioperasikannya. Misalnya, operator + muncul di antara operan A dan B dalam ekspresi A + B.\n\n");
+        printf("\e[1mPREFIX\e[0m\n");
+        printf("Ekspresi prefix, juga dikenal sebagai notasi Polandia, menempatkan operator sebelum operan. Misalnya, pada ekspresi + AB , kita menempatkan operator + di depan operan A dan B \n\n");
+        printf("\e[1mPOSTFIX\e[0m\n");
+        printf("Ekspresi postfix, juga dikenal sebagai notasi Polandia terbalik, di mana kita menempatkan operator setelah operan. Misalnya, dalam ekspresi AB + , operator + kita tempatkan setelah operan A dan B.\n\n");
+
+        printf("Tekan BACKSPACE untuk kembali!");
+        char ch;
+        while(1) {
+            ch = getch();
+            if(ch == 127 || ch == 27 || ch == '\b')
+                break;
+        }
+    } else if(select == 3) {
+        printf("\033[H\033[J");
+        printTitle("How To Start");
+        printf("Gunakan tanda panah atau W dan S untuk memilih menu.\n");
+        printf("Gunakan tombol SPACE atau ENTER untuk masuk ke menu.\n");
+        printf("Gunakan tombol BACKSPACE atau ESC untuk kembali ke menu sebelumnya.\n\n");
+        printf("Tekan BACKSPACE untuk kembali!");
+        char ch;
+        while(1) {
+            ch = getch();
+            if(ch == 127 || ch == 27 || ch == '\b')
+                break;
+        }
+    } else if(select == 4)
+        exit(0);
+
+     else if(select == 0) 
+        break;
+}
+}
+
 void convertMenu() {
     char *convertion[] = {"Infix to Postfix", "Postfix to Infix", "Infix to Prefix", "Prefix to Infix", "Prefix to Postfix", "Postfix to Prefix"};
+    int pilihan;
 
+while(1) {
     printf("\033[H\033[J");
-    printf("\n\e[1mPilih Konversi\e[0m\n\n");
-    int pilihan = menuSelect(convertion, 6);
+    printTitle("Pilih Konversi");
+    pilihan = menuSelect(convertion, 6);
     if(pilihan == 0)
         return;
 
@@ -86,11 +152,11 @@ void convertMenu() {
     sscanf(convertion[pilihan-1], "%s to %s", asal, tujuan);
     
     printf("\033[H\033[J");
-    printf("Masukkan ekspresi %s: ", asal);
+    printf("Masukkan ekspresi %s:\n--->   ", asal);
     scanf("%s", input);
     if(!expressionCheck(input, asal)) {
-        printf("Invalid Expression");
-        exit(1);
+        printf("\e[30mInvalid Expression!\e[0m\n");
+        goto akhir;
     }
 
     switch(pilihan) {
@@ -121,7 +187,7 @@ void convertMenu() {
         printf("%c", spin[i%4]);
         fflush(stdout);
         #ifdef _WIN32
-            Sleep(100);
+            Sleep(150);
         #else
             usleep(150000);
         #endif
@@ -131,26 +197,19 @@ void convertMenu() {
     printf("\033[H\033[J");
 
     printf("Hasil Konversi dari %s ke %s adalah\n\n%s\t-->\t%s\n\n", asal, tujuan, input, output);
+    akhir:
+    printf("Tekan BACKSPACE untuk kembali!");
+
     char ch;
     while(1) {
         ch = getch();
         if(ch == 27 || ch == 127 || ch == '\b')
-            convertMenu();
+            break;
     }
-
 }
 
-
-int main() {
-    char ch;
-    while(1) {
-        ch = getch();
-        
-        convertMenu();
-    }
 }
     
-
 void reverse(char* str) {
     int length = strlen(str);
     int i, j;
