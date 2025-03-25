@@ -12,6 +12,7 @@
 
 #define max 100
 
+char input[max], output[max];
 int precedence(char c);
 void infixToPostfix(char *src, char* dest);     
 void postfixToInfix(char *src, char* dest);
@@ -72,15 +73,14 @@ int expressionCheck(char *str, char *type) {
     return 1;
 }
 
-int main() {
-    char input[max], output[max];
+void convertMenu() {
     char *convertion[] = {"Infix to Postfix", "Postfix to Infix", "Infix to Prefix", "Prefix to Infix", "Prefix to Postfix", "Postfix to Prefix"};
 
     printf("\033[H\033[J");
-    printf("\nPilih Konversi\n\n");
+    printf("\n\e[1mPilih Konversi\e[0m\n\n");
     int pilihan = menuSelect(convertion, 6);
     if(pilihan == 0)
-        exit(0);
+        return;
 
     char asal[8], tujuan[8];
     sscanf(convertion[pilihan-1], "%s to %s", asal, tujuan);
@@ -131,8 +131,25 @@ int main() {
     printf("\033[H\033[J");
 
     printf("Hasil Konversi dari %s ke %s adalah\n\n%s\t-->\t%s\n\n", asal, tujuan, input, output);
+    char ch;
+    while(1) {
+        ch = getch();
+        if(ch == 27 || ch == 127 || ch == '\b')
+            convertMenu();
+    }
 
 }
+
+
+int main() {
+    char ch;
+    while(1) {
+        ch = getch();
+        
+        convertMenu();
+    }
+}
+    
 
 void reverse(char* str) {
     int length = strlen(str);
