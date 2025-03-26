@@ -44,23 +44,17 @@ int menuSelect(char **menu, int len) {
             printf("\e[0m");
         }
         ch = getch();
-        if(ch == 'w' && pilihan != 1)
+        if((ch == 'w' || ch == 'A') && pilihan != 1)
             pilihan--;
-        else if(ch == 's' && pilihan != len)
+        else if((ch == 's' || ch == 'B') && pilihan != len)
             pilihan++;
-        else if(ch == 224) {
-            if(ch == 72 && pilihan != 0)
-                pilihan--;
-            else if(ch == 80 && pilihan != 5)
-                pilihan++;
-        }
         else if(ch == ' ' || ch == 13)
             return pilihan;
         else if(ch == 127 || ch == 27 || ch == '\b')
             return 0;
 
         for(int j = 0; j < len; j++) 
-            printf("\e[F");
+            printf("\e[A");
     }
 }
 
@@ -132,8 +126,6 @@ while(1) {
     } else if(select == 4)
         exit(0);
 
-     else if(select == 0) 
-        break;
 }
 }
 
