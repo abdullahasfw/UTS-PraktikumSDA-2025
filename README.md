@@ -20,11 +20,11 @@ Untuk menjalankan program di atas, ikuti perintah berikut.
 
 Pertama lakukan kompilasi menggunakan gcc/clang.
 ```bash
-  gcc -o passingExpression passingExpression.c
+  gcc -o passing_expression passing_expression.c
 ```
 Kemudian jalankan program yang sudah di compile.
 ```bash
-  ./passingExpression
+  ./passing_expression
 ```
 Program siap untuk digunakan.
 ## Related
